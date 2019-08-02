@@ -8,7 +8,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DotLiquid" Version="2.0.314" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="2.0.0" />
     <PackageReference Include="NJsonSchema" Version="10.0.21" />
     <PackageReference Include="NJsonSchema.CodeGeneration" Version="10.0.21" />
