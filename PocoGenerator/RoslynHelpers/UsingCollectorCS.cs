@@ -7,10 +7,6 @@ namespace PocoGenerator.RoslynHelpers
     class UsingCollector : CSharpSyntaxWalker
     {
         public readonly List<UsingDirectiveSyntax> Usings = new List<UsingDirectiveSyntax>();
-
-        public override void VisitUsingDirective(UsingDirectiveSyntax node)
-        {
-            Usings.Add(node);
-        }
+        public override void VisitUsingDirective(UsingDirectiveSyntax node) => Usings.Add(node);
     }
 }

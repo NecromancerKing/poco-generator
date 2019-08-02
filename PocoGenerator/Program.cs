@@ -1,15 +1,15 @@
 ﻿using System;
 using System.IO;
-using System.Reflection;
+using System.Threading.Tasks;
 
 namespace PocoGenerator
 {
     class Program
     {
         private static string _namespace;
-        private static string _foldername;
+        private static string _folderpath;
         private static string _filename;
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
             if (args.Length == 0)
             {
@@ -18,18 +18,12 @@ namespace PocoGenerator
             }
 
             _namespace = args[0];
-            _foldername = args[1];
-            _filename = args[2];
+            _filename = args[1];
+            _folderpath = args[2];
 
             if (string.IsNullOrEmpty(_namespace))
             {
                 Console.WriteLine("Namespace is not supported");
-                return;
-            }
-
-            if (string.IsNullOrEmpty(_foldername))
-            {
-                Console.WriteLine("Output folder name is not supported");
                 return;
             }
 
@@ -39,17 +33,20 @@ namespace PocoGenerator
                 return;
             }
 
-            string assemblyLocation = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            string outputDir = Path.Combine(assemblyLocation, _foldername);
-            string filename = Path.Combine(assemblyLocation, _filename);
-
-            if (!Directory.Exists(outputDir))
+            if (string.IsNullOrEmpty(_folderpath))
             {
-                Directory.CreateDirectory(outputDir);
+                Console.WriteLine("Output folder name is not supported");
+                return;
             }
 
-            var pocos = JsonSchemaToPocoHelpers.ConvertJsonSchemaFileToPoco(filename, _namespace);
-            JsonSchemaToPocoHelpers.WritePocoFiles(pocos, outputDir);
+            if (!Directory.Exists(_folderpath))
+            {
+                Directory.CreateDirectory(_folderpath);
+            }
+
+            var pocos =  await JsonSchemaToPocoHelpers.ConvertJsonSchemaFileToPocoAsync(_filename, _namespace).ConfigureAwait(false);
+            JsonSchemaToPocoHelpers.WritePocoFiles(pocos, _folderpath);
+            Console.WriteLine("done!");
         }
     }
 }

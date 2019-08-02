@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using NJsonSchema;
 using NJsonSchema.CodeGeneration.CSharp;
 using PocoGenerator.RoslynHelpers;
@@ -10,9 +11,9 @@ namespace PocoGenerator
 {
     public static class JsonSchemaToPocoHelpers
     {
-        private static string _ConvertJsonSchemaFileToPoco(string filename, string nameSpace)
+        private static async Task<string> _ConvertJsonSchemaFileToPocoAsync(string filename, string nameSpace)
         {
-            var schema = JsonSchema.FromFileAsync(filename);
+            var schema = await  JsonSchema.FromFileAsync(filename).ConfigureAwait(false);
             CSharpGeneratorSettings settings = new CSharpGeneratorSettings
             {
                 ClassStyle = CSharpClassStyle.Poco,
@@ -21,7 +22,7 @@ namespace PocoGenerator
                 HandleReferences = true,
                 Namespace = nameSpace
             };
-            var generator = new CSharpGenerator(schema.Result, settings);
+            var generator = new CSharpGenerator(schema, settings);
             var file = generator.GenerateFile();
             file = file.Replace(" partial", "");
             var lines = file.Split(new[] { "\r\n", "\r", "\n" }, StringSplitOptions.None).ToList();
@@ -41,19 +42,16 @@ namespace PocoGenerator
             return poco;
         }
 
-        public static List<KeyValuePair<string, string>> ConvertJsonSchemaFileToPoco(string filename, string nameSpace)
+        public static async Task<List<KeyValuePair<string, string>>> ConvertJsonSchemaFileToPocoAsync(string filename, string nameSpace)
         {
-            var pocos = _ConvertJsonSchemaFileToPoco(filename, nameSpace);
+            var pocos = await _ConvertJsonSchemaFileToPocoAsync(filename, nameSpace).ConfigureAwait(false);
             var fullClasses = RoslynParser.ExtractFullClassesFromMainClass(pocos);
             return fullClasses;
         }
 
         public static void WritePocoFiles(List<KeyValuePair<string, string>> pocos, string outputDir)
         {
-            foreach (var poco in pocos)
-            {
-                File.Create(Path.Combine(outputDir, poco.Key + ".cs"));
-            }
+            pocos.ForEach(poco => File.WriteAllText(Path.Combine(outputDir, poco.Key + ".cs"), poco.Value));
         }
     }
 }

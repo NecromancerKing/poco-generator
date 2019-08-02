@@ -1,8 +1,7 @@
 {
   "profiles": {
     "PocoGenerator": {
-      "commandName": "Project",
-      "commandLineArgs": "MocksService.Controllers UserInfo UserInfo.json"
+      "commandName": "Project"
     }
   }
 }

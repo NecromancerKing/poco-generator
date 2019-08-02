@@ -37,11 +37,7 @@ namespace PocoGenerator.RoslynHelpers
 
             var collector = new UsingCollector();
             collector.Visit(root);
-
-            foreach (var directive in collector.Usings)
-            {
-                usings.Add(directive.Name.ToString());
-            }
+            collector.Usings.ForEach(directive => usings.Add(directive.Name.ToString()));
 
             return usings;
         }
