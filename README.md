@@ -1,5 +1,5 @@
 # poco-generator
 
-Publish the console app  
+Publish the console app as single native exe    
 
-`dotnet publish -c Release -r win10-x64`
+`dotnet publish -c Release

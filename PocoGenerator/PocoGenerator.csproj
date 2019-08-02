@@ -2,9 +2,17 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>netcoreapp2.2</TargetFramework>
-    <Authors>PocoGenerator</Authors>
-    <Company>PocoGenerator</Company>
+    <TargetFramework>netcoreapp3.0</TargetFramework>
+    <Authors>Siavash Rostami</Authors>
+    <IsWindows Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Windows)))' == 'true'">true</IsWindows>
+    <IsOSX Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::OSX)))' == 'true'">true</IsOSX>
+    <IsLinux Condition="'$([System.Runtime.InteropServices.RuntimeInformation]::IsOSPlatform($([System.Runtime.InteropServices.OSPlatform]::Linux)))' == 'true'">true</IsLinux>
+    <PublishTrimmed>true</PublishTrimmed>
+    <PublishReadyToRun>false</PublishReadyToRun>
+    <PublishSingleFile>true</PublishSingleFile>
+    <RuntimeIdentifier Condition="'$(IsWindows)'=='true'">win-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(IsLinux)'=='true'">linux-x64</RuntimeIdentifier>
+    <RuntimeIdentifier Condition="'$(IsOSX)'=='true'">osx-x64</RuntimeIdentifier>
   </PropertyGroup>
 
   <ItemGroup>
