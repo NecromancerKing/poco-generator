@@ -1,0 +1,47 @@
+﻿{
+  "$schema": "userinfo-schema",
+  "title":  "UserInfo",
+  "definitions": {
+    "phoneNumber": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "areaCode": { "type": "string" },
+        "number":  { "type": "string" }
+      },
+      "required": ["areaCode", "number"]
+    },
+    "consent": {
+      "type": "object",
+      "additionalProperties": false, 
+      "properties": {
+        "electronicSMSConsent": { "type": "string" },
+        "electronicEmailConsent":  { "type": "string" },
+        "groupConsent":  { "type": "string" },
+        "telephoneConsent":  { "type": "string" },
+        "letterConsent":  { "type": "string" }
+      }
+    }
+  },
+
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "customerName": {"type" : "string"},
+    "cpr": {"type" : "string"},
+    "privateEmail": {"type" : "string"},
+    "jobEmail": {"type" : "string"},
+    "streetAndBuildingNumber": {"type" : "string"},
+    "zipNumberAndCity": {"type" : "string"},
+    "country": {"type" : "string"},
+    "hasAddressProtection": {"type" : "boolean"},
+    "consents": { "$ref": "#/definitions/consent" },
+    "isSebCustomer": {"type" : "boolean"},
+    "isNemIdLegitimated": {"type" : "boolean"},
+    "isAdultCustomer": {"type" : "boolean"},
+    "isDanicaClient": {"type" : "boolean"},
+    "customerProfiling": {"type" : "boolean"},
+    "isCustomerInRobinsonList": {"type" : "boolean"}
+    
+  }
+}
